@@ -1,0 +1,12 @@
+Build.PL
+Changes
+MANIFEST
+MANIFEST.SKIP
+META.yml
+META.json
+README
+lib/Data/FormValidator/URI.pm
+t/uri-filter.t
+t/uri-constraint.t
+xt/pod.t
+xt/pod-coverage.t

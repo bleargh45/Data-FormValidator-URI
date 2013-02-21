@@ -1,0 +1,175 @@
+package Data::FormValidator::URI;
+
+###############################################################################
+# Required inclusions.
+use strict;
+use warnings;
+use URI;
+
+###############################################################################
+# Export our methods.
+use base qw( Exporter );
+our @EXPORT = qw(
+    FV_uri_filter
+    FV_uri
+);
+
+###############################################################################
+# Version number.
+our $VERSION = '0.01';
+
+###############################################################################
+# Subroutine:   FV_uri_filter(%opts)
+###############################################################################
+# Filter method which cleans up the given value as best it can and returns
+# something that looks like a URI.
+#
+# The filtered URI will be canonicalized, and common typos will be corrected.
+#
+# Supported options:
+#   default - Default URI scheme to use, if none was provided in the URI
+sub FV_uri_filter {
+    my %opts = @_;
+
+    return sub {
+        my $val = shift;
+
+        # Add default scheme if one was not provided in the URI.
+        if ($opts{default}) {
+            unless ($val =~ m{^\s*\w+://}) {
+                $val = $opts{default} . "://" . $val;
+            }
+        }
+
+        # Correct typos in "://"
+        if ($val =~ m{^\s*(\w+):/(\w.*)$}) {
+            $val = join '://', $1, $2;
+        }
+
+        # Canonicalize the URI
+        {
+            my $uri = URI->new($val);
+            $val = $uri->canonical if ($uri);
+        }
+
+        return $val;
+    };
+}
+
+###############################################################################
+# Subroutine:   FV_uri(%opts)
+###############################################################################
+# Constraint method, which ensures that we have a valid URI.
+#
+# Supported options:
+#   schemes - list-ref of valid schemes
+sub FV_uri {
+    my %opts = @_;
+
+    return sub {
+        my $dfv = shift;
+        my $val = shift;
+
+        $dfv->name_this($dfv->get_current_constraint_field);
+
+        my $uri = URI->new($val);
+
+        # Fail if its not a valid URI at all
+        return 0 unless ($uri);
+
+        # URI must have a scheme
+        my $scheme = $uri->scheme;
+        return 0 unless $scheme;
+
+        # Check list of supported schemes
+        if ($opts{schemes}) {
+            return 0 unless (grep { $_ eq $scheme } @{$opts{schemes}});
+        }
+
+        # Looks good!
+        return 1;
+    };
+}
+
+1;
+
+=head1 NAME
+
+Data::FormValidator::URI - URI constraint/filter for Data::FormValidator
+
+=head1 SYNOPSIS
+
+  use Data::FormValidator;
+  use Data::FormValidator::URI;
+
+  my $res = Data::FormValidator->check( {
+      website => 'http://www.example.com/path/to/some/resource.html',
+  }, {
+      required      => [qw( website )],
+      field_filters => {
+          website => FV_uri_filter(default => 'http'),
+      },
+      constraint_methods => {
+          website => FV_uri(schemes => [qw( http https )]),
+      }
+  } );
+
+=head1 DESCRIPTION
+
+This module provides a filter and a constraint method for use with
+C<Data::FormValidator>, to help make it easier to valid URIs.
+
+=head1 METHODS
+
+=over
+
+=item B<FV_uri_filter(%opts)>
+
+Filter method which cleans up the given value as best it can and returns
+something that looks like a URI.
+
+The filtered URI will be canonicalized, and common typos will be corrected.
+
+Supported options:
+
+=over
+
+=item default
+
+Default URI scheme to use, if none was provided in the URI
+
+=back
+
+=item B<FV_uri(%opts)>
+
+Constraint method, which ensures that we have a valid URI.
+
+Supported options:
+
+=over
+
+=item schemes
+
+list-ref of valid schemes
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Graham TerMarsch <cpan@howlingfrog.com>
+
+=head1 COPYRIGHT
+
+Copyright (C) 2013, Graham TerMarsch.  All Rights Reserved.
+
+This is free software; you can redistribute it and/or modify it under the terms
+of the Artistic 2.0 license.
+
+=head1 SEE ALSO
+
+L<Data::FormValidator>,
+L<URI>,
+
+=cut
