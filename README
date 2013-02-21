@@ -31,7 +31,7 @@ METHODS
 
         Supported options:
 
-        default
+        default_scheme
             Default URI scheme to use, if none was provided in the URI
 
     FV_uri(%opts)

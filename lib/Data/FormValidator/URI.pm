@@ -27,7 +27,7 @@ our $VERSION = '0.01';
 # The filtered URI will be canonicalized, and common typos will be corrected.
 #
 # Supported options:
-#   default - Default URI scheme to use, if none was provided in the URI
+#   default_scheme - Default URI scheme to use, if none was provided in the URI
 sub FV_uri_filter {
     my %opts = @_;
 
@@ -35,9 +35,9 @@ sub FV_uri_filter {
         my $val = shift;
 
         # Add default scheme if one was not provided in the URI.
-        if ($opts{default}) {
+        if ($opts{default_scheme}) {
             unless ($val =~ m{^\s*\w+://}) {
-                $val = $opts{default} . "://" . $val;
+                $val = $opts{default_scheme} . "://" . $val;
             }
         }
 
@@ -134,7 +134,7 @@ Supported options:
 
 =over
 
-=item default
+=item default_scheme
 
 Default URI scheme to use, if none was provided in the URI
 

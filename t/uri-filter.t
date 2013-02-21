@@ -8,7 +8,7 @@ use Data::FormValidator::URI;
 ###############################################################################
 # TEST: URI Filter - default scheme added when no scheme present
 uri_filter_default_scheme: {
-    my $fcn = FV_uri_filter(default => 'ftp');
+    my $fcn = FV_uri_filter(default_scheme => 'ftp');
     my $got = $fcn->('www.example.com/public/');
     is $got, 'ftp://www.example.com/public/',
         'Default scheme added when missing in URI';
@@ -17,7 +17,7 @@ uri_filter_default_scheme: {
 ###############################################################################
 # TEST: URI Filter - default scheme ignored when a scheme *is* present
 uri_filter_ignore_default_scheme: {
-    my $fcn = FV_uri_filter(default => 'ftp');
+    my $fcn = FV_uri_filter(default_scheme => 'ftp');
     my $got = $fcn->('http://www.example.com/');
     is $got, 'http://www.example.com/',
         'Default scheme ignored when present in URI';
