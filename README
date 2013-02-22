@@ -13,7 +13,10 @@ SYNOPSIS
               website => FV_uri_filter(default => 'http'),
           },
           constraint_methods => {
-              website => FV_uri(schemes => [qw( http https )]),
+              website => FV_uri(
+                  schemes   => [qw( http https )],
+                  hostcheck => 1,
+              ),
           }
       } );
 
@@ -41,6 +44,9 @@ METHODS
 
         schemes
             list-ref of valid schemes
+
+        hostcheck
+            host exists in URI and resolves as a valid host? (default off)
 
 AUTHOR
     Graham TerMarsch <cpan@howlingfrog.com>

@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 6;
 use Data::FormValidator::URI;
 use Data::FormValidator;
 
@@ -68,4 +68,36 @@ uri_constraint_valid_uri: {
 
     my $is_good = $res->valid('website');
     ok $is_good, 'Valid URI validates correctly';
+}
+
+###############################################################################
+# TEST: URI Contraint - invalid hostname
+uri_constraint_invalid_host: {
+    my $res = Data::FormValidator->check( {
+        website => 'http://www.this-domain-does-not-exist-at-all.com/',
+    }, {
+        required => [qw( website )],
+        constraint_methods => {
+            website => FV_uri(hostcheck => 1),
+        },
+    } );
+
+    my $is_good = $res->valid('website');
+    ok !$is_good, 'Invalid host name fails host check';
+}
+
+###############################################################################
+# TEST: URI Contraint - valid hostname
+uri_constraint_valid_host: {
+    my $res = Data::FormValidator->check( {
+        website => 'http://www.google.com/',
+    }, {
+        required => [qw( website )],
+        constraint_methods => {
+            website => FV_uri(hostcheck => 1),
+        },
+    } );
+
+    my $is_good = $res->valid('website');
+    ok $is_good, 'Valid host name passes host check';
 }

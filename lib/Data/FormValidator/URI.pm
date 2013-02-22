@@ -62,7 +62,8 @@ sub FV_uri_filter {
 # Constraint method, which ensures that we have a valid URI.
 #
 # Supported options:
-#   schemes - list-ref of valid schemes
+#   schemes   - list-ref of valid schemes
+#   hostcheck - host exists in URI and resolves as a valid host? (default off)
 sub FV_uri {
     my %opts = @_;
 
@@ -84,6 +85,17 @@ sub FV_uri {
         # Check list of supported schemes
         if ($opts{schemes}) {
             return 0 unless (grep { $_ eq $scheme } @{$opts{schemes}});
+        }
+
+        # Check for valid hostname
+        if ($opts{hostcheck}) {
+            return 0 unless ($uri->can('host'));
+
+            my $host = $uri->host;
+            return 0 unless ($host);
+
+            my @bits = gethostbyname($host);
+            return 0 unless (@bits);
         }
 
         # Looks good!
@@ -110,7 +122,10 @@ Data::FormValidator::URI - URI constraint/filter for Data::FormValidator
           website => FV_uri_filter(default => 'http'),
       },
       constraint_methods => {
-          website => FV_uri(schemes => [qw( http https )]),
+          website => FV_uri(
+              schemes   => [qw( http https )],
+              hostcheck => 1,
+          ),
       }
   } );
 
@@ -151,6 +166,10 @@ Supported options:
 =item schemes
 
 list-ref of valid schemes
+
+=item hostcheck
+
+host exists in URI and resolves as a valid host? (default off)
 
 =back
 
