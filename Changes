@@ -1,4 +1,8 @@
 Revision history for Data::FormValidator::URI
 
+0.02    Tue Jun 18 09:08 PDT 2013
+    - reject URIs w/embedded user info by default.  Can be optionally
+      re-enabled via "allow_userinfo=>1"
+
 0.01    Thu Feb 21 12:23 PST 2013
     - initial version

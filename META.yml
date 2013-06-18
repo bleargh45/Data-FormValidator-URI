@@ -15,10 +15,10 @@ name: Data-FormValidator-URI
 provides:
   Data::FormValidator::URI:
     file: lib/Data/FormValidator/URI.pm
-    version: 0.01
+    version: 0.02
 requires:
   Data::FormValidator: 4
   URI: 0
 resources:
   license: http://opensource.org/licenses/artistic-license-2.0.php
-version: 0.01
+version: 0.02
