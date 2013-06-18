@@ -71,7 +71,7 @@ uri_constraint_valid_uri: {
 }
 
 ###############################################################################
-# TEST: URI Contraint - invalid hostname
+# TEST: URI Constraint - invalid hostname
 uri_constraint_invalid_host: {
     my $res = Data::FormValidator->check( {
         website => 'http://www.this-domain-does-not-exist-at-all.com/',
@@ -87,7 +87,7 @@ uri_constraint_invalid_host: {
 }
 
 ###############################################################################
-# TEST: URI Contraint - valid hostname
+# TEST: URI Constraint - valid hostname
 uri_constraint_valid_host: {
     my $res = Data::FormValidator->check( {
         website => 'http://www.google.com/',
