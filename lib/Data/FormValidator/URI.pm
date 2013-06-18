@@ -64,6 +64,7 @@ sub FV_uri_filter {
 # Supported options:
 #   schemes   - list-ref of valid schemes
 #   hostcheck - host exists in URI and resolves as a valid host? (default off)
+#   allow_userinfo  - allow user info in URI (default off)
 sub FV_uri {
     my %opts = @_;
 
@@ -85,6 +86,11 @@ sub FV_uri {
         # Check list of supported schemes
         if ($opts{schemes}) {
             return 0 unless (grep { $_ eq $scheme } @{$opts{schemes}});
+        }
+
+        # Check for embedeed user info
+        unless ($opts{allow_userinfo}) {
+            return 0 if ($uri->userinfo);
         }
 
         # Check for valid hostname
@@ -123,8 +129,9 @@ Data::FormValidator::URI - URI constraint/filter for Data::FormValidator
       },
       constraint_methods => {
           website => FV_uri(
-              schemes   => [qw( http https )],
-              hostcheck => 1,
+              schemes        => [qw( http https )],
+              hostcheck      => 1,
+              allow_userinfo => 0,
           ),
       }
   } );
@@ -170,6 +177,10 @@ list-ref of valid schemes
 =item hostcheck
 
 host exists in URI and resolves as a valid host? (default off)
+
+=item allow_userinfo
+
+is URI considered valid if it contains user info? (default off)
 
 =back
 

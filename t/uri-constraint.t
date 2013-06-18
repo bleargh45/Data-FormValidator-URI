@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More tests => 8;
 use Data::FormValidator::URI;
 use Data::FormValidator;
 
@@ -100,4 +100,36 @@ uri_constraint_valid_host: {
 
     my $is_good = $res->valid('website');
     ok $is_good, 'Valid host name passes host check';
+}
+
+###############################################################################
+# TEST: URI Constraint - invalid w/embedded user info (by default)
+uri_constraint_invalid_user_info: {
+    my $res = Data::FormValidator->check( {
+        website => 'http://user@yahoo.com/',
+    }, {
+        required => [qw( website )],
+        constraint_methods => {
+            website => FV_uri(),
+        },
+    } );
+
+    my $is_good = $res->valid('website');
+    ok !$is_good, 'URI invalid w/embedded user info';
+}
+
+###############################################################################
+# TEST: URI Constraint - embedded user info can be optionally allowed
+uri_constraint_allowed_user_info: {
+    my $res = Data::FormValidator->check( {
+        website => 'http://user@yahoo.com/',
+    }, {
+        required => [qw( website )],
+        constraint_methods => {
+            website => FV_uri(allow_userinfo => 1),
+        },
+    } );
+
+    my $is_good = $res->valid('website');
+    ok $is_good, 'URI w/embedded user info valid when allowed';
 }
