@@ -1,5 +1,8 @@
 Revision history for Data::FormValidator::URI
 
+{{$NEXT}}
+    - switch to Dist::Zilla for release management
+
 0.02    Tue Jun 18 09:08 PDT 2013
     - reject URIs w/embedded user info by default.  Can be optionally
       re-enabled via "allow_userinfo=>1"

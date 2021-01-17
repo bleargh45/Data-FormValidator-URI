@@ -1,7 +1,0 @@
-Build
-_build/
-.git
-\..*\.sw[a-z]
-blib/
-^MYMETA.yml$
-^MYMETA.json$
