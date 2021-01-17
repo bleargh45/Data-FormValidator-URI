@@ -201,7 +201,12 @@ of the Artistic 2.0 license.
 
 =head1 SEE ALSO
 
-L<Data::FormValidator>,
-L<URI>,
+=over
+
+=item L<Data::FormValidator>
+
+=item L<URI>
+
+=back
 
 =cut

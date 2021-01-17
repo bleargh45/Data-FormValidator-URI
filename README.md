@@ -76,5 +76,5 @@ of the Artistic 2.0 license.
 
 # SEE ALSO
 
-[Data::FormValidator](https://metacpan.org/pod/Data%3A%3AFormValidator),
-[URI](https://metacpan.org/pod/URI),
+- [Data::FormValidator](https://metacpan.org/pod/Data%3A%3AFormValidator)
+- [URI](https://metacpan.org/pod/URI)
