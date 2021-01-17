@@ -3,6 +3,7 @@ Revision history for Data::FormValidator::URI
 {{$NEXT}}
     - switch to Dist::Zilla for release management
     - POD cleanups; spelling
+    - Move to GitHub
 
 0.02    Tue Jun 18 09:08 PDT 2013
     - reject URIs w/embedded user info by default.  Can be optionally
