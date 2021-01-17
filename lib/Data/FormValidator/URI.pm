@@ -122,21 +122,24 @@ Data::FormValidator::URI - URI constraint/filter for Data::FormValidator
   use Data::FormValidator;
   use Data::FormValidator::URI;
 
-  my $res = Data::FormValidator->check( {
+  my $res = Data::FormValidator->check(
+    {
       website => 'http://www.example.com/path/to/some/resource.html',
-  }, {
+    },
+    {
       required      => [qw( website )],
       field_filters => {
-          website => FV_uri_filter(default => 'http'),
+        website => FV_uri_filter(default => 'http'),
       },
       constraint_methods => {
-          website => FV_uri(
-              schemes        => [qw( http https )],
-              hostcheck      => 1,
-              allow_userinfo => 0,
-          ),
-      }
-  } );
+        website => FV_uri(
+          schemes        => [qw( http https )],
+          hostcheck      => 1,
+          allow_userinfo => 0,
+        ),
+      },
+    },
+  );
 
 =head1 DESCRIPTION
 
