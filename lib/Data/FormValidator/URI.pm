@@ -111,6 +111,8 @@ sub FV_uri {
 
 1;
 
+=for stopwords hostcheck canonicalized
+
 =head1 NAME
 
 Data::FormValidator::URI - URI constraint/filter for Data::FormValidator
