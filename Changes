@@ -1,6 +1,8 @@
 Revision history for Data::FormValidator::URI
 
 {{$NEXT}}
+
+0.03      2021-01-17 15:37:10-08:00 America/Vancouver
     - switch to Dist::Zilla for release management
     - POD cleanups; spelling, bullet lists
     - Move to GitHub
