@@ -145,7 +145,7 @@ C<Data::FormValidator>, to help make it easier to valid URIs.
 
 =over
 
-=item B<FV_uri_filter(%opts)>
+=item FV_uri_filter(%opts)
 
 Filter method which cleans up the given value as best it can and returns
 something that looks like a URI.
@@ -162,7 +162,7 @@ Default URI scheme to use, if none was provided in the URI
 
 =back
 
-=item B<FV_uri(%opts)>
+=item FV_uri(%opts)
 
 Constraint method, which ensures that we have a valid URI.
 
@@ -180,7 +180,7 @@ host exists in URI and resolves as a valid host? (default off)
 
 =item allow_userinfo
 
-is URI considered valid if it contains user info? (default off)
+allow user info in URI (default off)
 
 =back
 
